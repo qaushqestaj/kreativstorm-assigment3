@@ -30,56 +30,56 @@ const playRound = (playerSelection, computerSelection) => {
 
 // Main game function to play 5 rounds and keep score
 const game = () => {
-  let playerScore = 0
-  let computerScore = 0
-  const totalRounds = 5
+  let playAgain = true;
 
-  for (let round = 1; round <= totalRounds; round++) {
-    let playerPrompt = ""
+  while (playAgain) {
+    let playerScore = 0;
+    let computerScore = 0;
+    const totalRounds = 5;
 
-    // Ensure the player provides a valid input
-    do {
-      playerPrompt = prompt(
-        "Choose between rock, paper, and scissors"
-      ).toLowerCase()
-      if (
-        playerPrompt !== "rock" &&
-        playerPrompt !== "paper" &&
-        playerPrompt !== "scissors"
-      ) {
-        alert("You must type rock, paper, or scissors")
+    for (let round = 1; round <= totalRounds; round++) {
+      let playerPrompt = "";
+
+      // Ensure the player provides a valid input
+      do {
+        playerPrompt = prompt("Choose between rock, paper, and scissors").toLowerCase();
+        if (playerPrompt !== "rock" && playerPrompt !== "paper" && playerPrompt !== "scissors") {
+          alert("You must type rock, paper, or scissors");
+        }
+      } while (playerPrompt !== "rock" && playerPrompt !== "paper" && playerPrompt !== "scissors");
+
+      const computerChoice = computerPlay();
+      console.log(`Round ${round}:`);
+      console.log(`You chose ${playerPrompt}`);
+      console.log(`Computer chose ${computerChoice}`);
+
+      const result = playRound(playerPrompt, computerChoice);
+      console.log(result);
+
+      if (result.startsWith("You win")) {
+        playerScore++;
+      } else if (result.startsWith("You lose")) {
+        computerScore++;
       }
-    } while (
-      playerPrompt !== "rock" &&
-      playerPrompt !== "paper" &&
-      playerPrompt !== "scissors"
-    )
 
-    const computerChoice = computerPlay()
-
-    console.log(`Round ${round}:`)
-    console.log(`You chose ${playerPrompt}`)
-    console.log(`Computer chose ${computerChoice}`)
-
-    const result = playRound(playerPrompt, computerChoice)
-    console.log(result)
-
-    if (result.startsWith("You win")) {
-      playerScore++
-    } else if (result.startsWith("You lose")) {
-      computerScore++
+      console.log(`Score: Player ${playerScore} - Computer ${computerScore}`);
     }
 
-    console.log(`Score: Player ${playerScore} - Computer ${computerScore}`)
-  }
+    // Announce the final result after 5 rounds
+    if (playerScore > computerScore) {
+      console.log("Congratulations! You won the game!");
+    } else if (playerScore < computerScore) {
+      console.log("Sorry, the computer won the game.");
+    } else {
+      console.log("It's a tie overall!");
+    }
 
-  // Announce the final result after 5 rounds
-  if (playerScore > computerScore) {
-    console.log("Congratulations! You won the game!")
-  } else if (playerScore < computerScore) {
-    console.log("Sorry, the computer won the game.")
-  } else {
-    console.log("It's a tie overall!")
+    // Ask if the player wants to play again
+    let replay = prompt("Do you want to play again? Type 'yes' to replay, or anything else to quit.").toLowerCase();
+    if (replay !== "yes") {
+      playAgain = false;
+      console.log("Thanks for playing!");
+    }
   }
 }
 

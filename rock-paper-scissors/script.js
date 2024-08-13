@@ -1,16 +1,16 @@
 // Function to randomly select rock, paper, or scissors for the computer
 const computerPlay = () => {
-  const choices = ["rock", "paper", "scissors"]
-  return choices[Math.floor(Math.random() * 3)]
+  const choices = ["rock", "paper", "scissors"];
+  return choices[Math.floor(Math.random() * 3)];
 }
 
 // Function to play a single round of Rock, Paper, Scissors
 const playRound = (playerSelection, computerSelection) => {
-  playerSelection = playerSelection.toLowerCase()
-  computerSelection = computerSelection.toLowerCase()
+  playerSelection = playerSelection.toLowerCase();
+  computerSelection = computerSelection.toLowerCase();
 
   if (playerSelection === computerSelection) {
-    return `It's a tie! Both chose ${playerSelection}`
+    return `It's a tie! Both chose ${playerSelection}`;
   }
 
   if (
@@ -18,13 +18,9 @@ const playRound = (playerSelection, computerSelection) => {
     (playerSelection === "paper" && computerSelection === "rock") ||
     (playerSelection === "scissors" && computerSelection === "paper")
   ) {
-    return `You win! ${
-      playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1)
-    } beats ${computerSelection}`
+    return `You win! ${playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1)} beats ${computerSelection}`;
   } else {
-    return `You lose! ${
-      computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1)
-    } beats ${playerSelection}`
+    return `You lose! ${computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1)} beats ${playerSelection}`;
   }
 }
 
@@ -42,7 +38,12 @@ const game = () => {
 
       // Ensure the player provides a valid input
       do {
-        playerPrompt = prompt("Choose between rock, paper, and scissors").toLowerCase();
+        playerPrompt = prompt("Choose between rock, paper, and scissors");
+        if (playerPrompt === null) {
+          alert("You canceled the game.");
+          return; // Exit the game if the player cancels
+        }
+        playerPrompt = playerPrompt.trim().toLowerCase();
         if (playerPrompt !== "rock" && playerPrompt !== "paper" && playerPrompt !== "scissors") {
           alert("You must type rock, paper, or scissors");
         }
@@ -75,12 +76,12 @@ const game = () => {
     }
 
     // Ask if the player wants to play again
-    let replay = prompt("Do you want to play again? Type 'yes' to replay, or anything else to quit.").toLowerCase();
-    if (replay !== "yes") {
+    let replay = prompt("Do you want to play again? Type 'yes' to replay, or anything else to quit.");
+    if (replay === null || replay.trim().toLowerCase() !== "yes") {
       playAgain = false;
       console.log("Thanks for playing!");
     }
   }
 }
 
-game()
+game();

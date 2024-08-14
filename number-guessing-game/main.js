@@ -1,24 +1,33 @@
-const generateRandomNumber = () => Math.floor(Math.random() * 10) + 1; // Generate a random number between 1 and 10
+const generateRandomNumber = () => Math.floor(Math.random() * 100) + 1; // Generate a random number between 1 and 10
 
 // Get the number that player enters
 function getPlayerGuess() {
   while (true) {
-    const input = prompt('Enter a random number from 1 to 10');
+    const input = prompt('Enter a random number from 1 to 100');
 
     if (input === null) {
       alert('You cancelled the prompt.');
       return; // Exit the function if the user cancels the prompt
     }
 
-    const answer = Number(input);
+    const trimmedInput = input.trim();
+
+    if (/[-’/`~!#*$@_%+=.,^&(){}[\]|;:”<>?\\]/g.test(trimmedInput)) {
+      alert(
+        'Invalid input! Only number between 1 and 100 are allowed. Try again!'
+      );
+      continue;
+    }
+
+    const answer = Number(trimmedInput);
 
     if (isNaN(answer)) {
       alert('No number was entered! Please try again.');
     } else if (answer === 0) {
       alert('Input cannot be blank or 0. Please try again!');
-    } else if (answer < 1 || answer > 10) {
+    } else if (answer < 1 || answer > 100) {
       alert(
-        'You entered a number outside the range of 1 to 10. Please try again!'
+        'You entered a number outside the range of 1 to 100. Please try again!'
       );
     } else {
       alert('Valid number entered: ' + answer);
@@ -52,7 +61,8 @@ function game() {
 
     // Only check if the player didn't cancel the prompt
     if (playerGuess == undefined) {
-      console.log('You canceled the game.');
+      let score = 0;
+      console.log(`You canceled the game. Your bonus score is ${score}`);
       break;
     }
 
@@ -62,9 +72,31 @@ function game() {
     // If the user win
     if (result === 'The number you entered is correct!') {
       alert(
-        `Congratulations! You guessed the correct number in ${attempts} attempts`
+        `Congratulations! You guessed the correct number in ${attempts} attempts. Your bonus score is ${
+          attempts == 1
+            ? (score = 100)
+            : attempts == 2
+            ? (score = 90)
+            : attempts == 3
+            ? (score = 80)
+            : attempts == 4
+            ? (score = 70)
+            : attempts == 5
+            ? (score = 60)
+            : attempts == 6
+            ? (score = 50)
+            : attempts == 7
+            ? (score = 40)
+            : attempts == 8
+            ? (score = 30)
+            : attempts == 9
+            ? (score = 20)
+            : attempts == 10
+            ? (score = 10)
+            : (score = 0)
+        }.`
       );
-      console.log('Wohoo you have won! 🎉🎉');
+      console.log(`Wohoo you have won! 🎉🎉. Your bonus score is ${score}.`);
       break;
     } else {
       alert(result + ' Try again');
@@ -74,13 +106,14 @@ function game() {
   // If the user lose by using all the attempts and not guessing the correct number
   if (attempts === maxAttempts && playerGuess !== randomNumber) {
     alert(
-      `Sorry, you have used all ${attempts} attempts. The correct number was ${randomNumber}`
+      `Sorry, you have used all ${attempts} attempts. The correct number was ${randomNumber}.`
     );
-    console.log('You lost! So sorry 😢😭');
+    let score = 0;
+    console.log(`You lost! So sorry 😢😭. Your bonus score is ${score}.`);
   }
 
   console.log(
-    `Game over! You used ${attempts} attempts of total ${maxAttempts} attempts`
+    `Game over! You used ${attempts} attempts of total ${maxAttempts} attempts.`
   );
 }
 

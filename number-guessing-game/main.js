@@ -51,12 +51,10 @@ function getPlayerGuess() {
 
 // Checks the player's guess and the random number based on three conditions
 function checkGuess(playerGuess, randomNum) {
-  const difference = Math.abs(playerGuess - randomNum);
-
   if (playerGuess > randomNum) {
-    return difference <= 10 ? 'The number you entered is a bit too high!' : 'The number you entered is too high!';
+    return 'The number you entered is too high!';
   } else if (playerGuess < randomNum) {
-    return difference <= 10 ? 'The number you entered is a bit too low!' : 'The number you entered is too low!';
+    return 'The number you entered is too low!';
   } else {
     return 'The number you entered is correct!';
   }

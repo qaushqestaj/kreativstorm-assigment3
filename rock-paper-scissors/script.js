@@ -43,6 +43,14 @@ const game = () => {
           alert("You canceled the game.");
           return; // Exit the game if the player cancels
         }
+
+        // ****** Check for spaces *******
+        if (/\s/.test(playerPrompt)) {
+          alert("Invalid input! Please enter your choice without any spaces.");
+          continue;
+        }
+
+
         playerPrompt = playerPrompt.trim().toLowerCase();
         if (playerPrompt !== "rock" && playerPrompt !== "paper" && playerPrompt !== "scissors") {
           alert("You must type rock, paper, or scissors");

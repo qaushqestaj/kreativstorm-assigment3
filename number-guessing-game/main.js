@@ -10,21 +10,34 @@ function getPlayerGuess() {
       return; // Exit the function if the user cancels the prompt
     }
 
-    const trimmedInput = input.trim();
 
-    if (/[-’/`~!#*$@_%+=.,^&(){}[\]|;:”<>?\\]/g.test(trimmedInput)) {
+    // ********** Check for spaces ************
+    if (/\s/.test(input)) {
+      alert('Invalid input! Please enter a number without any spaces.');
+      continue;
+    }
+
+
+    // ******* Check for leading zeros ******** 
+    if (input.length > 1 && input[0] === '0') {
+      alert('Invalid input! Please enter the number without leading zeros.');
+      continue;
+    }
+
+
+    if (/[-'/`~!#*$@_%+=.,^&(){}[\]|;:"<>?\\]/g.test(input)) {
       alert(
         'Invalid input! Only number between 1 and 100 are allowed. Try again!'
       );
       continue;
     }
 
-    const answer = Number(trimmedInput);
+    const answer = Number(input);
 
     if (isNaN(answer)) {
       alert('No number was entered! Please try again.');
     } else if (answer === 0) {
-      alert('Input cannot be blank or 0. Please try again!');
+      alert('Input cannot be 0. Please try again!');
     } else if (answer < 1 || answer > 100) {
       alert(
         'You entered a number outside the range of 1 to 100. Please try again!'
@@ -73,33 +86,33 @@ function game() {
         attempts == 1
           ? (score = 100)
           : attempts == 2
-          ? (score = 90)
-          : attempts == 3
-          ? (score = 80)
-          : attempts == 4
-          ? (score = 70)
-          : attempts == 5
-          ? (score = 60)
-          : attempts == 6
-          ? (score = 50)
-          : attempts == 7
-          ? (score = 40)
-          : attempts == 8
-          ? (score = 30)
-          : attempts == 9
-          ? (score = 20)
-          : attempts == 10
-          ? (score = 10)
-          : (score = 0),
+            ? (score = 90)
+            : attempts == 3
+              ? (score = 80)
+              : attempts == 4
+                ? (score = 70)
+                : attempts == 5
+                  ? (score = 60)
+                  : attempts == 6
+                    ? (score = 50)
+                    : attempts == 7
+                      ? (score = 40)
+                      : attempts == 8
+                        ? (score = 30)
+                        : attempts == 9
+                          ? (score = 20)
+                          : attempts == 10
+                            ? (score = 10)
+                            : (score = 0),
 
       grade:
         attempts === 100
           ? 'Excellent 👏'
           : attempts <= 50
-          ? 'Nice, at least you found it 😒'
-          : attempts > 50
-          ? 'Very nice 👍'
-          : 'Really? You could not guess that at all 🤦‍♂️?',
+            ? 'Nice, at least you found it 😒'
+            : attempts > 50
+              ? 'Very nice 👍'
+              : 'Really? You could not guess that at all 🤦‍♂️?',
     };
 
     // If the user win

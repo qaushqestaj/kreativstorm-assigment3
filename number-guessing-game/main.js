@@ -97,11 +97,11 @@ function game() {
     let gradeResult =
       scoreResult === 100
         ? 'Excellent 👏'
-        : scoreResult <= 50 && scoreResult != 10
-          ? 'Nice, at least you found it 😒'
-          : scoreResult > 50
-            ? 'Very nice 👍'
-            : 'Really? You could not guess that at all 🤦‍♂️?';
+        : scoreResult <= 50
+        ? 'Nice, at least you found it 😒'
+        : scoreResult > 50
+        ? 'Very nice 👍'
+        : 'Really? You could not guess that at all 🤦‍♂️?';
 
     // If the user win
     if (result === 'The number you entered is correct!') {
@@ -111,7 +111,7 @@ function game() {
       console.log(
         `Wohoo you have won! 🎉🎉. Your bonus score is ${scoreResult}. Your grade is ${gradeResult}`
       );
-      break;
+      return;
     } else {
       alert(result + ' Try again');
     }
@@ -124,7 +124,8 @@ function game() {
     );
     let score = 0;
     console.log(
-      `You lost! So sorry 😢😭. Your bonus score is ${score}. ${score == 0 ? 'Really? You could not guess that at all 🤦‍♂️?' : ''
+      `You lost! So sorry 😢😭. Your bonus score is ${score}. ${
+        score == 0 ? 'Really? You could not guess that at all 🤦‍♂️?' : ''
       }`
     );
   }

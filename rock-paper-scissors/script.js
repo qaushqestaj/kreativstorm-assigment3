@@ -2,30 +2,56 @@
 const computerPlay = () => {
   const choices = ["rock", "paper", "scissors"];
   return choices[Math.floor(Math.random() * 3)];
-}
+};
 
 // Function to play a single round of Rock, Paper, Scissors
-const playRound = (playerSelection, computerSelection) => {
-  playerSelection = playerSelection.toLowerCase();
-  computerSelection = computerSelection.toLowerCase();
-
+const Round = (playerSelection, computerSelection) => {
   if (playerSelection === computerSelection) {
     return `It's a tie! Both chose ${playerSelection}`;
   }
 
-  if (
-    (playerSelection === "rock" && computerSelection === "scissors") ||
+  return (playerSelection === "rock" && computerSelection === "scissors") ||
     (playerSelection === "paper" && computerSelection === "rock") ||
     (playerSelection === "scissors" && computerSelection === "paper")
-  ) {
-    return `You win! ${playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1)} beats ${computerSelection}`;
-  } else {
-    return `You lose! ${computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1)} beats ${playerSelection}`;
-  }
-}
+    ? `You win! ${
+        playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1)
+      } beats ${computerSelection}`
+    : `You lose! ${
+        computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1)
+      } beats ${playerSelection}`
+};
+
+// Function to get a valid player input
+const getPlayerChoice = () => {
+  let playerPrompt = "";
+
+  do {
+    playerPrompt = prompt("Choose between rock, paper, and scissors");
+    if (playerPrompt === null) {
+      alert("You canceled the game.");
+      return null; // Exit the function if the player cancels
+    }
+
+    playerPrompt = playerPrompt.trim().toLowerCase();
+    if (
+      playerPrompt !== "rock" &&
+      playerPrompt !== "paper" &&
+      playerPrompt !== "scissors"
+    ) {
+      alert("You must type rock, paper, or scissors");
+    }
+  } while (
+    playerPrompt !== "rock" &&
+    playerPrompt !== "paper" &&
+    playerPrompt !== "scissors"
+  );
+
+  return playerPrompt;
+};
 
 // Main game function to play 5 rounds and keep score
 const game = () => {
+  alert("You should open the console to play, Right-click on the page and select Inspect from the context menu, or press F12 key.");
   let playAgain = true;
 
   while (playAgain) {
@@ -34,35 +60,18 @@ const game = () => {
     const totalRounds = 5;
 
     for (let round = 1; round <= totalRounds; round++) {
-      let playerPrompt = "";
+      const playerChoice = getPlayerChoice();
 
-      // Ensure the player provides a valid input
-      do {
-        playerPrompt = prompt("Choose between rock, paper, and scissors");
-        if (playerPrompt === null) {
-          alert("You canceled the game.");
-          return; // Exit the game if the player cancels
-        }
-
-        // ****** Check for spaces *******
-        if (/\s/.test(playerPrompt)) {
-          alert("Invalid input! Please enter your choice without any spaces.");
-          continue;
-        }
-
-
-        playerPrompt = playerPrompt.trim().toLowerCase();
-        if (playerPrompt !== "rock" && playerPrompt !== "paper" && playerPrompt !== "scissors") {
-          alert("You must type rock, paper, or scissors");
-        }
-      } while (playerPrompt !== "rock" && playerPrompt !== "paper" && playerPrompt !== "scissors");
+      if (playerChoice === null) {
+        return; // Exit the game if the player cancels
+      }
 
       const computerChoice = computerPlay();
       console.log(`Round ${round}:`);
-      console.log(`You chose ${playerPrompt}`);
+      console.log(`You chose ${playerChoice}`);
       console.log(`Computer chose ${computerChoice}`);
 
-      const result = playRound(playerPrompt, computerChoice);
+      const result = Round(playerChoice, computerChoice);
       console.log(result);
 
       if (result.startsWith("You win")) {
@@ -84,9 +93,11 @@ const game = () => {
     }
 
     // Ask if the player wants to play again
-    let replay = prompt("Do you want to play again? Type 'yes' to replay, or anything else to quit.");
-    if (replay === null || replay.trim().toLowerCase() !== "yes") {
-      playAgain = false;
+    let replay = prompt("Do you want to play again? Type 'yes' to replay, or anything else to quit.")
+    if (replay !== null && replay.trim().toLowerCase() === "yes") {
+      playAgain = true
+    } else {
+      playAgain = false
       console.log("Thanks for playing!");
     }
   }

@@ -93,23 +93,23 @@ function game() {
       10: 10,
     };
 
-    const scorerResults = scoreMapping[attempts];
+    const scoreResult = scoreMapping[attempts];
     let gradeResult =
-      scorerResults === 100
+      scoreResult === 100
         ? 'Excellent 👏'
-        : scorerResults <= 50
+        : scoreResult <= 50 && scoreResult != 10
         ? 'Nice, at least you found it 😒'
-        : scorerResults > 50
+        : scoreResult > 50
         ? 'Very nice 👍'
         : 'Really? You could not guess that at all 🤦‍♂️?';
 
     // If the user win
     if (result === 'The number you entered is correct!') {
       alert(
-        `Congratulations! You guessed the correct number in ${attempts} attempts. Your bonus score is ${scorerResults} and your grade is ${gradeResult}`
+        `Congratulations! You guessed the correct number in ${attempts} attempts. Your bonus score is ${scoreResult} and your grade is ${gradeResult}`
       );
       console.log(
-        `Wohoo you have won! 🎉🎉. Your bonus score is ${scorerResults}. Your grade is ${gradeResult}`
+        `Wohoo you have won! 🎉🎉. Your bonus score is ${scoreResult}. Your grade is ${gradeResult}`
       );
       break;
     } else {
@@ -123,7 +123,11 @@ function game() {
       `Sorry, you have used all ${attempts} attempts. The correct number was ${randomNumber}.`
     );
     let score = 0;
-    console.log(`You lost! So sorry 😢😭. Your bonus score is ${score}.`);
+    console.log(
+      `You lost! So sorry 😢😭. Your bonus score is ${score}. ${
+        score == 0 ? 'Really? You could not guess that at all 🤦‍♂️?' : ''
+      }`
+    );
   }
 
   console.log(

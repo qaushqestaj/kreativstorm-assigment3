@@ -1,48 +1,20 @@
-const generateRandomNumber = () => Math.floor(Math.random() * 100) + 1; // Generate a random number between 1 and 100
+const generateRandomNumber = () => Math.floor(Math.random() * 100) + 1;
 
-// Get the number that player enters
 function getPlayerGuess() {
   while (true) {
     const input = prompt('Enter a random number from 1 to 100');
 
     if (input === null) {
-      alert('You cancelled the prompt.');
-      return; // Exit the function if the user cancels the prompt
+      alert('Game cancelled, thanks for playing.');
+      return;
     }
 
-    // ********** Check for spaces ************
-    if (/\s/.test(input)) {
-      alert('Invalid input! Please enter a number without any spaces.');
-      continue;
-    }
+    const answer = Number(input.trim());
 
-    // ******* Check for leading zeros ********
-    if (input.length > 1 && input[0] === '0') {
-      alert('Invalid input! Please enter the number without leading zeros.');
-      continue;
-    }
-
-    if (/[-'/`~!#*$@_%+=.,^&(){}[\]|;:"<>?\\]/g.test(input)) {
-      alert(
-        'Invalid input! Only number between 1 and 100 are allowed. Try again!'
-      );
-      continue;
-    }
-
-    const answer = Number(input);
-
-    if (isNaN(answer)) {
-      alert('No number was entered! Please try again.');
-      continue;
-    } else if (answer === 0) {
-      alert('Input cannot be 0. Please try again!');
-    } else if (answer < 1 || answer > 100) {
-      alert(
-        'You entered a number outside the range of 1 to 100. Please try again!'
-      );
-      continue;
+    if (isNaN(answer) || answer < 1 || answer > 100 || input.includes('.') ||
+      (input.length > 1 && input[0] === '0') || /[-'/`~!#*$@_%+=,^&(){}[\]|;:"<>?\\]/g.test(input)) {
+      alert('Invalid input! Please enter a whole number between 1 and 100.');
     } else {
-      alert('Valid number entered: ' + answer);
       return answer;
     }
   }
@@ -66,6 +38,11 @@ function game() {
   let attempts = 0;
   const maxAttempts = 10;
 
+  // Fixed: Calculate score
+  function calculateScore(attempts) {
+    return Math.max(0, Math.floor(100 - (attempts - 1) * 7.5));
+  }
+
   while (attempts < maxAttempts) {
     let playerGuess = getPlayerGuess();
 
@@ -80,28 +57,13 @@ function game() {
     const result = checkGuess(playerGuess, randomNumber); // Store the result of checkGuess function
     console.log(result);
 
-    const scoreMapping = {
-      1: 100,
-      2: 90,
-      3: 80,
-      4: 70,
-      5: 60,
-      6: 50,
-      7: 40,
-      8: 30,
-      9: 20,
-      10: 10,
-    };
-
-    const scoreResult = scoreMapping[attempts];
+    //Updated score result
+    const scoreResult = calculateScore(attempts);
     let gradeResult =
-      scoreResult === 100
-        ? 'Excellent 👏'
-        : scoreResult <= 50
-        ? 'Nice, at least you found it 😒'
-        : scoreResult > 50
-        ? 'Very nice 👍'
-        : 'Really? You could not guess that at all 🤦‍♂️?';
+      scoreResult >= 90 ? 'Excellent 👏' :
+        scoreResult >= 70 ? 'Very nice 👍' :
+          scoreResult >= 50 ? 'Nice, at least you found it 😒' :
+            'Really? You could not guess that earlier 🤦‍♂️?';
 
     // If the user win
     if (result === 'The number you entered is correct!') {
@@ -124,8 +86,7 @@ function game() {
     );
     let score = 0;
     console.log(
-      `You lost! So sorry 😢😭. Your bonus score is ${score}. ${
-        score == 0 ? 'Really? You could not guess that at all 🤦‍♂️?' : ''
+      `You lost! So sorry 😢😭. Your bonus score is ${score}. ${score == 0 ? 'Really? You could not guess that at all 🤦‍♂️?' : ''
       }`
     );
   }

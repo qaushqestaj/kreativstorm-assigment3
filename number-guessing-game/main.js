@@ -13,7 +13,7 @@ function getPlayerGuess() {
 
     if (isNaN(answer) || answer < 1 || answer > 100 || input.includes('.') ||
       (input.length > 1 && input[0] === '0') || /[-'/`~!#*$@_%+=,^&(){}[\]|;:"<>?\\]/g.test(input)) {
-      alert('Invalid input! Please enter a whole number between 1 and 100.');
+      alert('Please enter a whole number between 1 and 100.');
     } else {
       return answer;
     }
